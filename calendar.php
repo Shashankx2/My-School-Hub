@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<?php
+session_start();
+ if($_SESSION['id'] == "logout")
+{
+    header("location:index.php");
+    exit();
+}
+else if($_SESSION['id']{0} != 2)
+{
+    header("location:pagenotfound.php");
+    exit();
+}
+else
+{ 
+ $conn = mysqli_connect("localhost","root","","test");
+  if(! $conn )
+  {
+     die('Could not connect: ' . mysqli_error());
+  }
+  $query = "SELECT * FROM faculty where (ID = '$_SESSION[id]' )";
+        if($r = mysqli_query($conn,$query))
+        {
+             while($row=mysqli_fetch_array($r))
+             {
+				$_SESSION['fname'] = $row['FIRST_NAME'];
+				$_SESSION['lname'] = $row['LAST_NAME'];
+				$_SESSION['sid'] = $row['SID'];
+				$_SESSION['school'] = $row['SCHOOL'];		
+				$_SESSION['cid'] = "faculty";
+				$_SESSION['email'] = $row['EMAIL'];
+				$_SESSION['photo'] = $row['PHOTO'];
+				$_SESSION['count'] = 10;
+				$_SESSION['count_notifications'] = 10;
+				$_SESSION['count_notices'] = 10;
+
+             } 
+        }
+}
+if($_REQUEST['month'] != 'Jan' || $_REQUEST['month'] != 'Feb' || $_REQUEST['month'] != 'Mar' || $_REQUEST['month'] != 'Apr' || $_REQUEST['month'] != 'May' || $_REQUEST['month'] != 'Jun' || $_REQUEST['month'] != 'Jul' || $_REQUEST['month'] != 'Aug' || $_REQUEST['month'] != 'Sep' || $_REQUEST['month'] != 'Oct' || $_REQUEST['month'] != 'Nov' || $_REQUEST['month'] != 'Dec')
+{
+	if(date('M') == 'Jan'){
+		$montharray = array(4, 31);
+		$monthtoget = 01;
+		}
+	if(date('M') == 'Feb'){
+		$montharray = array(0, 28);
+		$monthtoget = 02;
+		}
+	if(date('M') == 'Mar'){
+		$montharray = array(0, 31);
+		$monthtoget = 03;
+		}
+	if(date('M') == 'Apr'){
+		$montharray = array(3, 30);
+		$monthtoget = 04;
+		}
+	if(date('M') == 'May'){
+		$montharray = array(5, 31);
+		$monthtoget = 05;
+		}
+	if(date('M') == 'Jun'){
+		$montharray = array(1, 30);
+		$monthtoget = 06;
+		}
+	if(date('M') == 'Jul'){
+		$montharray = array(3, 31);
+		$monthtoget = 07;
+		}
+	if(date('M') == 'Aug'){
+		$montharray = array(6, 31);
+		$monthtoget = 08;
+		}
+	if(date('M') == 'Sep'){
+		$montharray = array(2, 31);
+		$monthtoget = 09;
+		}
+	if(date('M') == 'Oct'){
+		$montharray = array(4, 31);
+		$monthtoget = 10;
+		}
+	if(date('M') == 'Nov'){
+		$montharray = array(0, 30);
+		$monthtoget = 11;
+		}
+	if(date('M') == 'Dec'){
+		$montharray = array(2, 31);
+		$monthtoget = 12;
+		}
+}
+else if($_REQUEST['month'] == 'Jan'){
+		$montharray = array(4, 31);
+		$monthtoget = 01;
+		}
+	if($_REQUEST['month'] == 'Feb'){
+		$montharray = array(0, 28);
+		$monthtoget = 02;
+		}
+	if($_REQUEST['month'] == 'Mar'){
+		$montharray = array(0, 31);
+		$monthtoget = 03;
+		}
+	if($_REQUEST['month'] == 'Apr'){
+		$montharray = array(3, 30);
+		$monthtoget = 04;
+		}
+	if($_REQUEST['month'] == 'May'){
+		$montharray = array(5, 31);
+		$monthtoget = 05;
+		}
+	if($_REQUEST['month'] == 'Jun'){
+		$montharray = array(1, 30);
+		$monthtoget = 06;
+		}
+	if($_REQUEST['month'] == 'Jul'){
+		$montharray = array(3, 31);
+		$monthtoget = 07;
+		}
+	if($_REQUEST['month'] == 'Aug'){
+		$montharray = array(6, 31);
+		$monthtoget = 08;
+		}
+	if($_REQUEST['month'] == 'Sep'){
+		$montharray = array(2, 31);
+		$monthtoget = 09;
+		}
+	if($_REQUEST['month'] == 'Oct'){
+		$montharray = array(4, 31);
+		$monthtoget = 10;
+		}
+	if($_REQUEST['month'] == 'Nov'){
+		$montharray = array(0, 30);
+		$monthtoget = 11;
+		}
+	if($_REQUEST['month'] == 'Dec'){
+		$montharray = array(2, 31);
+		$monthtoget = 12;
+		}
+
+$class = $_REQUEST['classlist'];
+
+?>
+<html lang="en">
+    <head>
+        <title>Attendance - <?php echo $_SESSION['fname']." ".$_SESSION['lname'];?></title>
+        <meta name="keywords" content="urbanic, responsive, bootstrap, fluid layout, orange, white, free website template, templatemo" />
+		<meta name="description" content="Urbanic is free responsive template using Bootstrap which is compatible with mobile devices. This layout is provided by templatemo for free of charge." />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--<link rel="shortcut icon" href="PUT YOUR FAVICON HERE">-->
+        
+        
+        <!-- Google Web Font Embed -->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+        
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.css" rel='stylesheet' type='text/css'>
+        
+
+        <!-- Custom styles for this template -->
+        <link href="js/colorbox/colorbox.css"  rel='stylesheet' type='text/css'>
+        <link href="css/templatemo_style.css"  rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    
+    <body style="background:#94BEDA;">
+
+                        <!--Logo Bar-->
+
+		<div class="templatemo-top-bar" id="templatemo-top">
+            <div class="container">
+                <div class="subheader">
+                    <div id="phone" class="pull-left">
+                            <img src="images/phone.png" alt="phone"/>
+                            010-020-0340
+                    </div>
+                    <div id="email" class="pull-right">
+                            <img src="images/email.png" alt="email"/>
+                            contact@website.com
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                        <!--Profile Bar-->
+
+                        <!--Profile Bar-->
+
+        <div class="templatemo-top-menu" style="border-bottom: 2px solid #888888;">
+            <div class="container">
+                <!-- Static navbar -->
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="container">
+                        <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                </button>
+								<a href="">
+									<table>
+									<tr><td><img height = 60 width = 60 src="images/students/<?php echo $_SESSION['photo']; ?>" style="border-radius: 33px;"></td>
+									<th><?php echo $_SESSION['fname'] ." ". $_SESSION['lname']; ?><br/>
+									<?php echo $_SESSION['school']; ?><br/>
+									<?php echo "ID : ".$_SESSION['id']; ?><br/>
+									<?php echo "School ID : ".$_SESSION['sid']; ?>
+									</td></tr>
+									</table>
+								</a>
+                        </div>
+                        <div class="navbar-collapse collapse" >
+                            <ul class="nav navbar-nav navbar-right" style="margin-top: 14px;">
+                                <li class="active"><a href="homepage-faculty.php" onclick='navforwardhomefaculty()'>HOME</a></li>
+                                <li><a href="profile-faculty.php" onclick='navforwardpfaculty()'>PROFILE</a></li>
+								<li><a href="attendance-faculty.php" onclick='navforwardattfaculty()'>ATTENDANCE</a></li>
+								<li><a href="assignment-faculty.php" onclick='navforwardasfaculty()'>ASSIGNMENT</a></li>
+								<li><a href="notice-faculty.php" onclick='navforwardnfaculty()'>NOTICES</a></li>
+								<li><a href="music.php" onclick='navforwardm()'>MUSIC</a></li>
+								<li><a href="notes.php" onclick='navforwardn()'>NOTES</a></li>
+                                <li><a href="login.php" onclick='navforwardl()'>LOGOUT</a></li>
+                                <li><a href="contact.php">CONTACT</a></li>
+                            </ul>
+                        </div><!--/.nav-collapse -->
+                    </div><!--/.container-fluid -->
+                </div><!--/.navbar -->
+            </div> <!-- /container -->
+        </div>
+        
+
+                        <!--Main Homepage-->
+        
+        <div class="templatemo-service">
+            <div class="container">
+                <div class="row">
+
+                <!-- Notices division -->                    
+                    
+                    <div class="col-md-41">
+                        <div class="templatemo-service-item" style='background: #fff;border-radius: 4px;box-shadow: 0px 0px 5px #888;padding: 10px;'>
+                            
+                            <div>
+                                <img src="images/battery.png" alt="icon"/>
+                                <span class="templatemo-service-item-header">NOTICES</span>
+                            </div>
+                            <br>
+                            <div>
+                                
+                                    <?php
+                                    
+                                        
+                                        $conn = mysqli_connect("localhost","root","","test");
+                                        if(! $conn )
+                                        {           
+                                            die('Could not connect: ' . mysqli_error());
+                                        }
+                                        if($res = mysqli_query($conn,"select * from notice where (SID = '$_SESSION[sid]') order by SNO desc limit 10"))
+                                        {
+                                            while($row=mysqli_fetch_array($res))
+                                            { 
+                                                            echo "<div float = 'left' style = 'border-bottom:solid 1px rgba(161, 151, 151, 0.4);'><table><tr>";
+                                                            echo "<td><a href = 'displaynotice.php?sno=$row[SNO]'><p style = 'margin-top: 0px;margin-bottom: 0px;'><font color = 'BLACK'>".$row['TITLE']."</font></p></a> ";
+                                                            echo "<font size=2>".$row['DATE']."</font></td></tr></table></div>";
+                                            }
+                                            echo "<div id = 'noticearea".($_SESSION['count_notices']/10)."'>";
+                                echo "<div style = 'background-color: #eeeeee; margin-top:10px;'>";                                 
+                                echo "<div style = 'padding:1.5%;'>";
+                                echo "<center><a onclick = 'morenotices(".($_SESSION['count_notices']/10).")'>Show More</a></center>";
+                                echo "</div></div></div>";
+                                        }
+                                    ?>         
+                            </div>
+                            <br class="clearfix"/>
+                        </div>
+                        <br class="clearfix"/>
+                    </div>
+					<!-- Notices ends -->
+
+                                        <!--ATTENDENCE DIVISION-->
+                    
+                    <div class="col-md-42">
+                        <div class="templatemo-service-item" style='background: #fff;border-radius: 4px;box-shadow: 0px 0px 5px #888;padding: 10px;'>
+                            
+                            <div>
+								<!-- for showing list for class select -->
+								<center>
+								<form action="calendar.php" method="get"> 
+									<span class="templatemo-service-item-header">Select class: </span>
+									<select id="classlist" name="classlist" class="btn btn-orange">
+									<?php
+									$query2 = "select * from faculty_class where (ID = '$_SESSION[id]' )";
+										$k = 0;
+										if($r = mysqli_query($conn,$query2))
+										{
+											while($row=mysqli_fetch_array($r))
+											{
+												$classes[$k] = $row['CID'];
+												echo "<option value=".$row['CID'].">".$row['CID']."</option>";
+												$k++;
+											} 
+										}
+									?>
+									</select>
+									<input type="hidden" name="month" value="<?php echo date('M'); ?>">
+									&nbsp &nbsp &nbsp
+									<input type="submit" class="btn btn-orange" value="GO">	
+								</form>
+								</center>
+								<!-- select list ends for class -->
+								
+								<table border=1 width='70%' style='border-style: hidden;background-color: #EEE;box-shadow: 0px 0px 3px #888;' align='center'>
+									<tbody style='font-size: 16px;font-weight: bold;'>
+                                    <tr> 
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Jan'>JAN</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Feb'>FEB</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Mar'>MAR</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Apr'>APR</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=May'>MAY</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Jun'>JUN</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Jul'>JUL</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Aug'>AUG</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Sep'>SEP</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Oct'>OCT</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Nov'>NOV</a></td>
+                                    <td><a href='calendar.php?classlist=<?php echo $class ?>&month=Dec'>DEC</a></td>
+
+                                    </tr>
+									</tbody>
+                                </table>
+								<div align = "center" style = "margin-bottom: 0px;background-color: #EEE;box-shadow: 0px 0px 3px #888;">
+									<span class="templatemo-service-item-header" id='showmonthyear'>Attendance for - <?php echo $class; ?><br><?php echo date("M")." - ".date("Y"); ?></span>
+								</div>				
+								<br>
+								<div id='attendancearea'>
+                                <table border=0 align='center' width='50%' style="border-style: hidden;background:#bbb">
+									<thead style='background-color:#FF7600;color:#fff;font-size: 11px;'>
+									<tr> 
+									<td><font>Sun</td>
+									<td><font>Mon</td>
+									<td><font>Tue</td>
+									<td><font>Wed</td>
+									<td><font>Thu</td>
+									<td><font>Fri</td>
+									<td><font>Sat</td>
+									</tr>
+									<tr>
+									</thead>	
+									<tbody style='font-size: 12px;'>
+									<?php
+									//  for showing the table
+									$column = 0;
+
+									for($i =1 ; $i<= $montharray[0] ; $i++)
+									{
+										echo "<td>
+										
+										</td>";
+										$column++;
+									}
+									for($j = 1 ; $j<= $montharray[1] ; $j++)
+									{
+										if($column % 7 == 0)
+										{
+											echo "</tr><tr>";
+										}
+										echo "<td id='calendertd'>
+										<a id = hre".$j." href='#' onclick=ajaxstudentshow('".$class."','2015','".$monthtoget."','".$j."') style='text-decoration:none;'><div  id=at".$j." style='background-color: #fff;padding-right: 10px;padding-bottom: 13px;font-weight:bold;'>".$j."</div></a>
+										</td>";
+										$column++;
+									}
+								
+										// for attandence counting
+										for($i=0 ; $i<=31 ;$i++)
+										{
+											$attendence[$i]= "white";
+										}
+										$conn = mysqli_connect("localhost","root","","test");
+
+										$query = "select DAY(DATE) from attendance_done where (MONTH(DATE) = '$monthtoget') AND (CID = '$class')";
+								
+										if($r = mysqli_query($conn ,$query))
+										{
+											while($row = mysqli_fetch_array($r))
+											{
+												$day = $row['DAY(DATE)'];
+
+													echo "<script>document.getElementById('at".$day."').style.background = '#43D545';
+																document.getElementById('hre".$day."').href = '#';
+																document.getElementById('hre".$day."').onclick = 'editattendance()';
+														</script>";
+
+											}
+		
+												
+										}
+
+										echo "</tbody></table>
+										";	
+									?><br>
+								</div>	
+							<form action="#" method="post" onsubmit="return attendancevalidation()">  
+								<input type="hidden" name="atyear" id="atyear" value="">
+								<input type="hidden" name="atmonth" id="atmonth" value="">
+								<input type="hidden" name="atdate" id="atdate" value="">
+								<input type="hidden" name="classid" value="<?php echo $class; ?>">
+								<div id="studentshow" align ="center" style="margin-bottom:4px; font-size:17px;font-weight:bold;">
+									
+								</div>
+								<center><Button id="atsubmit" class="btn btn-orange" role="button" style="display:none;">Submit</Button></center>
+							</form>
+								
+                            </div>
+                            <br class="clearfix"/>
+                        </div>
+                    </div>
+
+					<!-- Notifications Division-->
+                                <?php
+                                echo "  <div class='col-md-41'>
+                                            <div class='templatemo-service-item' style='background: #fff;border-radius: 4px;box-shadow: 0px 0px 5px #888;padding: 10px;'>                                            
+                                                <div>
+                                                    <img src='images/leaf.png' alt='icon' />
+                                                    <span class='templatemo-service-item-header'>NOTIFICATIONS</span>
+                                                </div>
+                                                <br class = 'clearfix'>
+                                            <div>";
+                                
+                                
+                                        
+                                        $conn = mysqli_connect("localhost","root","","test");
+                                        if(! $conn )
+                                        {           
+                                            die('Could not connect: ' . mysqli_error());
+                                        }
+                                        if($res = mysqli_query($conn, "select * from temp_notifications where (SID = '$_SESSION[sid]') AND (CID = '$_SESSION[cid]') AND (STUDENT_ID = '$_SESSION[id]')order by SNO desc limit 10"))
+                                        {
+                                            while($row = mysqli_fetch_array($res))
+                                            { 
+                                                    echo "<div float = 'left' style = 'border-bottom:solid 1px rgba(161, 151, 151, 0.4);'><table><tr><td> <img height = 60 width = 60 src=images/Students/".$row['PHOTO']."> </td> ";
+                                                    echo "<td><a href = 'removenotification.php?sno=$row[UPDATE_ID]'><p style = 'margin-top: 0px;margin-bottom: 0px;'><font color = 'BLACK'>".$row['MATTER']."</font></p></a> ";
+                                                    echo "<font size=2>".$row['TIME']."</font></td></tr></table></div>";       
+                                                
+                                            }
+                                            
+                                                // division to show more notifications with ajax call
+                                                    echo "<div id = 'notificationarea".($_SESSION['count_notifications']/10)."'>";
+                                                    echo "<div style = 'background-color: #eeeeee; margin-top:10px;'>";                                 
+                                                    echo "<div style = 'padding:1.5%;'>";
+                                                    echo "<center><a onclick = 'morenotifications(".($_SESSION['count_notifications']/10).")'>Show More</a></center>";
+                                                    echo "</div></div></div>";
+                                            
+                                        }
+                                    ?>        
+                            </div>
+                            <br class="clearfix"/>
+                        </div>
+                    </div>
+					<!-- Notification ends -->
+                </div>
+            </div>
+        </div>
+
+
+        <div class="templatemo-footer" >
+            <div class="container">
+                <div class="row">
+                    <div class="text-center">
+
+                        <div class="footer_container">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="#">
+                                        <span class="social-icon-fb"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="social-icon-rss"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="social-icon-twitter"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="social-icon-linkedin"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="social-icon-dribbble"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="height30"></div>
+                            <a class="btn btn-lg btn-orange" href="#" role="button" id="btn-back-to-top">Back To Top</a>
+                            <div class="height30"></div>
+                        </div>
+                        <div class="footer_bottom_content">Copyright © 2015 <a href="#">Educationhub</a> </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js"  type="text/javascript"></script>
+        <script src="js/stickUp.min.js"  type="text/javascript"></script>
+        <script src="js/colorbox/jquery.colorbox-min.js"  type="text/javascript"></script>
+        <script src="js/templatemo_script.js"  type="text/javascript"></script>
+        <script src="js/ajaxscript.js"  type="text/javascript"></script>        
+
+    </body>
+<script type='text/javascript' src='js/logging.js'></script>
+</html>
+<!-- 
+    Free Responsive Template from templatemo
+    http://www.templatemo.com
+-->
