@@ -26,7 +26,7 @@ if(isset($_POST['loginbutton']))
   	}
 
 
-//---------------------now to check the id and password from table--------
+//---------------------TO CHECK ID AND PASSWORD FROM TABLE--------
 
   $conn = mysqli_connect("localhost","root","","test");
 	if(! $conn )
